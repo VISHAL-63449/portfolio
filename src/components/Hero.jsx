@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Reveal from './Reveal';
 
 export default function Hero() {
-    const titles = ['Frontend Developer', 'Full Stack Developer', 'Data Analyst'];
+    const titles = ['Frontend Developer', 'Full Stack Developer', 'Data Analyst', 'Python Developer'];
     const [titleIndex, setTitleIndex] = useState(0);
     const [charIndex, setCharIndex] = useState(0);
     const [isDeleting, setIsDeleting] = useState(false);
@@ -10,35 +10,38 @@ export default function Hero() {
 
     // Typing effect logic
     useEffect(() => {
-        const currentTitle = titles[titleIndex];
         let timer;
+        const currentTitle = titles[titleIndex];
 
         if (isDeleting) {
-            // Speed of backspacing
-            timer = setTimeout(() => {
-                setTypedText(currentTitle.substring(0, charIndex - 1));
-                setCharIndex((prev) => prev - 1);
-            }, 50);
+            // Deleting mode
+            if (charIndex > 0) {
+                timer = setTimeout(() => {
+                    setTypedText(currentTitle.substring(0, charIndex - 1));
+                    setCharIndex((prev) => prev - 1);
+                }, 50);
+            } else {
+                // Done deleting
+                setIsDeleting(false);
+                setTitleIndex((prev) => (prev + 1) % titles.length);
+            }
         } else {
-            // Speed of typing
-            timer = setTimeout(() => {
-                setTypedText(currentTitle.substring(0, charIndex + 1));
-                setCharIndex((prev) => prev + 1);
-            }, 100);
-        }
-
-        // Wait at the end of typing
-        if (!isDeleting && charIndex === currentTitle.length) {
-            timer = setTimeout(() => setIsDeleting(true), 1500);
-        }
-        // Start next word after deleting
-        else if (isDeleting && charIndex === 0) {
-            setIsDeleting(false);
-            setTitleIndex((prev) => (prev + 1) % titles.length);
+            // Typing mode
+            if (charIndex < currentTitle.length) {
+                timer = setTimeout(() => {
+                    setTypedText(currentTitle.substring(0, charIndex + 1));
+                    setCharIndex((prev) => prev + 1);
+                }, 100);
+            } else {
+                // Done typing, wait before starting deletion
+                timer = setTimeout(() => {
+                    setIsDeleting(true);
+                }, 1500);
+            }
         }
 
         return () => clearTimeout(timer);
-    }, [charIndex, isDeleting, titleIndex]);
+    }, [charIndex, isDeleting, titleIndex, titles]);
 
     const handleScrollTo = (id) => {
         const element = document.getElementById(id);

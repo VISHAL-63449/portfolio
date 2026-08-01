@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "node prebuild.js && vite build && node postbuild.js",
     "lint": "oxlint",
     "preview": "vite preview",
     "deploy": "vite build && cd dist && git init && git checkout -b gh-pages && git add . && git commit -m \"Deploy to GitHub Pages\" && git push -f https://github.com/vishal9932-maker/portfolio.git gh-pages"
