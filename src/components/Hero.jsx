@@ -159,81 +159,32 @@ export default function Hero() {
                     </Reveal>
                 </div>
 
-                {/* Right Side Futuristic CSS/SVG Reactor Core Profile Image */}
+                {/* Right Side Upgraded Premium Profile Image */}
                 <div className="hero-visual">
                     <Reveal animationType="zoom" delay={0.3}>
-                        <div className="tech-core-avatar">
-                            <div className="avatar-ring-outer"></div>
-                            <div className="avatar-ring-middle"></div>
-                            <div className="avatar-ring-inner"></div>
+                        <div className="premium-avatar-frame">
+                            {/* Decorative background glow */}
+                            <div className="avatar-glow-background"></div>
 
-                            <div className="avatar-container" style={{ position: 'relative', overflow: 'hidden' }}>
-                                {/* Profile image */}
+                            {/* Outer moving gradient border */}
+                            <div className="avatar-border-glow"></div>
+
+                            <div className="avatar-image-wrapper">
                                 <img
                                     src="profile.jpeg"
                                     alt="Vishal"
-                                    className="hero-avatar-image"
-                                    style={{
-                                        width: '100%',
-                                        height: '100%',
-                                        objectFit: 'cover',
-                                        position: 'absolute',
-                                        top: 0,
-                                        left: 0,
-                                        zIndex: 1,
-                                        transition: 'filter 0.5s ease'
-                                    }}
+                                    className="hero-avatar-img-clean"
                                 />
+                            </div>
 
-                                {/* Futuristic HUD scanner lines and hex overlay */}
-                                <div className="hud-scanline" style={{
-                                    position: 'absolute',
-                                    width: '100%',
-                                    height: '4px',
-                                    background: 'linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.5), rgba(124, 58, 237, 0.8), rgba(59, 130, 246, 0.5), transparent)',
-                                    zIndex: 2,
-                                    animation: 'scanLineMove 4s linear infinite',
-                                    pointerEvents: 'none'
-                                }}></div>
-
-                                <svg className="core-svg" viewBox="0 0 100 100" style={{ zIndex: 3, position: 'relative', pointerEvents: 'none' }}>
-                                    <defs>
-                                        <linearGradient id="coreGlow" x1="0%" y1="0%" x2="100%" y2="100%">
-                                            <stop offset="0%" stopColor="#7C3AED" stopOpacity="0.8" />
-                                            <stop offset="100%" stopColor="#3B82F6" stopOpacity="0.8" />
-                                        </linearGradient>
-                                    </defs>
-
-                                    {/* Glowing hexagonal grid overlay */}
-                                    <polygon points="50,15 80,32 80,68 50,85 20,68 20,32" fill="none" stroke="url(#coreGlow)" strokeWidth="1.2" strokeDasharray="3 3" opacity="0.7" />
-
-                                    {/* Outer circle of nodes */}
-                                    <circle cx="50" cy="15" r="2.5" fill="#3B82F6" className="pulsing-node" />
-                                    <circle cx="80" cy="32" r="2" fill="#7C3AED" />
-                                    <circle cx="80" cy="68" r="2" fill="#3B82F6" />
-                                    <circle cx="50" cy="85" r="2.5" fill="#7C3AED" className="pulsing-node" />
-                                    <circle cx="20" cy="68" r="2" fill="#3B82F6" />
-                                    <circle cx="20" cy="32" r="2" fill="#7C3AED" />
-
-                                    {/* Semi-transparent center ring overlay */}
-                                    <circle cx="50" cy="50" r="32" fill="none" stroke="url(#coreGlow)" strokeWidth="1.5" strokeDasharray="4 4" opacity="0.5" />
-
-                                    {/* Futuristic line indicators */}
-                                    <line x1="50" y1="18" x2="50" y2="30" stroke="#7C3AED" strokeWidth="0.8" opacity="0.6" />
-                                    <line x1="77" y1="34" x2="68" y2="40" stroke="#3B82F6" strokeWidth="0.8" opacity="0.6" />
-                                    <line x1="77" y1="66" x2="68" y2="60" stroke="#7C3AED" strokeWidth="0.8" opacity="0.6" />
-                                    <line x1="50" y1="82" x2="50" y2="70" stroke="#3B82F6" strokeWidth="0.8" opacity="0.6" />
-                                    <line x1="23" y1="66" x2="32" y2="60" stroke="#7C3AED" strokeWidth="0.8" opacity="0.6" />
-                                    <line x1="23" y1="34" x2="32" y2="40" stroke="#3B82F6" strokeWidth="0.8" opacity="0.6" />
-
-                                    {/* Code-style floating indicators */}
-                                    <path d="M 33 22 L 39 12 L 49 12" fill="none" stroke="#7C3AED" strokeWidth="0.8" opacity="0.7" />
-                                    <path d="M 67 22 L 61 12 L 51 12" fill="none" stroke="#3B82F6" strokeWidth="0.8" opacity="0.7" />
-                                </svg>
-
-                                {/* Tech labeling */}
-                                <div className="tech-badge badge-top" style={{ zIndex: 4 }}>VISHAL</div>
-                                <div className="tech-badge badge-bottom" style={{ zIndex: 4 }}>SYS_ACTIVE</div>
+                            {/* Elegant Floating Badges */}
+                            <div className="floating-tech-badge badge-react">
+                                <span className="tech-badge-dot purple"></span>
+                                <span className="tech-badge-text">Full Stack</span>
+                            </div>
+                            <div className="floating-tech-badge badge-data">
+                                <span className="tech-badge-dot blue"></span>
+                                <span className="tech-badge-text">Python & Data</span>
                             </div>
                         </div>
                     </Reveal>
