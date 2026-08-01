@@ -101,6 +101,26 @@
         font-size: 1.35rem;
     }
 
+    .premium-avatar-frame {
+        width: 270px;
+        height: 270px;
+    }
+
+    .floating-tech-badge {
+        padding: 6px 12px;
+        font-size: 0.68rem;
+    }
+
+    .badge-react {
+        top: 20px;
+        right: -15px;
+    }
+
+    .badge-data {
+        bottom: 20px;
+        left: -15px;
+    }
+
     .hero-ctas {
         flex-direction: column;
         width: 100%;
@@ -207,21 +227,29 @@
     }
 
     .hero-visual {
-        width: 250px;
-        height: 250px;
+        width: 240px;
+        height: 240px;
         margin: 0 auto;
     }
 
-    .tech-core-avatar {
-        width: 240px;
-        height: 240px;
+    .premium-avatar-frame {
+        width: 220px;
+        height: 220px;
     }
 
-    .avatar-ring-outer,
-    .avatar-ring-middle,
-    .avatar-ring-inner {
-        display: none;
-        /* Hide complex rotating vector shapes to speed up mobile views */
+    .floating-tech-badge {
+        padding: 5px 10px;
+        font-size: 0.62rem;
+    }
+
+    .badge-react {
+        top: 15px;
+        right: -10px;
+    }
+
+    .badge-data {
+        bottom: 15px;
+        left: -10px;
     }
 
     .stat-card {
