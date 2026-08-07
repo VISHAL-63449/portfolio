@@ -8,8 +8,9 @@ const devHtmlPlugin = () => ({
     if (ctx.server) {
       // In development server, replace the production scripts with the development source entrypoint
       return html
-        .replace(/src="\/portfolio\/assets\/index-.*?\.js"/, 'src="/src/main.jsx"')
-        .replace(/<link rel="stylesheet" crossorigin href="\/portfolio\/assets\/index-.*?\.css">/, '');
+        .replace(/src="(?:\.\/|\/portfolio\/|\/)?assets\/index-.*?\.js"/, 'src="/src/main.jsx"')
+        .replace(/<link rel="stylesheet" crossorigin href="(?:\.\/|\/portfolio\/|\/)?assets\/index-.*?\.css">/, '')
+        .replace(/href="(?:\.\/|\/portfolio\/|\/)?assets\/favicon-.*?\.svg"/, 'href="favicon.svg"');
     }
     return html;
   }
@@ -18,6 +19,6 @@ const devHtmlPlugin = () => ({
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), devHtmlPlugin()],
-  base: '/portfolio/',
+  base: process.env.VERCEL ? '/' : '/portfolio/',
 })
 
