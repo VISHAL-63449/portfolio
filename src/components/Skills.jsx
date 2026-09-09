@@ -1,10 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
 import Reveal from './Reveal';
+import { FaHtml5, FaCss3Alt, FaJsSquare, FaReact, FaNodeJs, FaPython, FaChartBar, FaGithub, FaMobileAlt, FaFileExcel } from 'react-icons/fa';
+import { SiExpress, SiMysql, SiMongodb } from 'react-icons/si';
+import { VscVscode } from 'react-icons/vsc';
 
-function SkillBar({ name, level }) {
+function SkillBar({ name, level, icon, color }) {
     const [width, setWidth] = useState(0);
     const ref = useRef(null);
-
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => {
@@ -34,7 +36,10 @@ function SkillBar({ name, level }) {
     return (
         <div ref={ref} className="skill-bar-wrapper">
             <div className="skill-bar-info">
-                <span className="skill-bar-name">{name}</span>
+                <span className="skill-bar-name" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    {icon && <span style={{ color: color || 'inherit', display: 'flex', fontSize: '1.2rem' }}>{icon}</span>}
+                    {name}
+                </span>
                 <span className="skill-bar-percent">{level}%</span>
             </div>
             <div className="skill-bar-track">
@@ -60,10 +65,10 @@ export default function Skills() {
                 </svg>
             ),
             skills: [
-                { name: 'HTML5', level: 95 },
-                { name: 'CSS3', level: 90 },
-                { name: 'JavaScript (ES6+)', level: 88 },
-                { name: 'React.js', level: 85 },
+                { name: 'HTML5', level: 95, icon: <FaHtml5 />, color: '#E34F26' },
+                { name: 'CSS3', level: 90, icon: <FaCss3Alt />, color: '#1572B6' },
+                { name: 'JavaScript (ES6+)', level: 88, icon: <FaJsSquare />, color: '#F7DF1E' },
+                { name: 'React.js', level: 85, icon: <FaReact />, color: '#61DAFB' },
             ],
         },
         {
@@ -74,10 +79,10 @@ export default function Skills() {
                 </svg>
             ),
             skills: [
-                { name: 'Node.js', level: 78 },
-                { name: 'Express.js', level: 80 },
-                { name: 'MySQL', level: 82 },
-                { name: 'MongoDB', level: 75 },
+                { name: 'Node.js', level: 78, icon: <FaNodeJs />, color: '#339933' },
+                { name: 'Express.js', level: 80, icon: <SiExpress />, color: '#FFFFFF' },
+                { name: 'MySQL', level: 82, icon: <SiMysql />, color: '#4479A1' },
+                { name: 'MongoDB', level: 75, icon: <SiMongodb />, color: '#47A248' },
             ],
         },
         {
@@ -88,9 +93,9 @@ export default function Skills() {
                 </svg>
             ),
             skills: [
-                { name: 'Python', level: 85 },
-                { name: 'Data Visualization', level: 80 },
-                { name: 'Excel / Data Wrangling', level: 90 },
+                { name: 'Python', level: 85, icon: <FaPython />, color: '#3776AB' },
+                { name: 'Data Visualization', level: 80, icon: <FaChartBar />, color: '#FF6384' },
+                { name: 'Excel / Data Wrangling', level: 90, icon: <FaFileExcel />, color: '#217346' },
             ],
         },
         {
@@ -102,9 +107,9 @@ export default function Skills() {
                 </svg>
             ),
             skills: [
-                { name: 'Git & GitHub', level: 88 },
-                { name: 'VS Code', level: 92 },
-                { name: 'Responsive Web Design', level: 90 },
+                { name: 'Git & GitHub', level: 88, icon: <FaGithub />, color: '#e8eaea' },
+                { name: 'VS Code', level: 92, icon: <VscVscode />, color: '#007ACC' },
+                { name: 'Responsive Web Design', level: 90, icon: <FaMobileAlt />, color: '#38bdf8' },
             ],
         },
     ];
@@ -144,6 +149,8 @@ export default function Skills() {
                                             key={skill.name}
                                             name={skill.name}
                                             level={skill.level}
+                                            icon={skill.icon}
+                                            color={skill.color}
                                         />
                                     ))}
                                 </div>
