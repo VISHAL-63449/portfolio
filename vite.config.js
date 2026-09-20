@@ -8,9 +8,9 @@ const devHtmlPlugin = () => ({
     if (ctx.server) {
       // In development server, replace the production scripts with the development source entrypoint
       return html
-        .replace(/src="(?:\.\/|\/portfolio\/|\/)?assets\/index-.*?\.js"/, 'src="/src/main.jsx"')
-        .replace(/<link rel="stylesheet" crossorigin href="(?:\.\/|\/portfolio\/|\/)?assets\/index-.*?\.css">/, '')
-        .replace(/href="(?:\.\/|\/portfolio\/|\/)?assets\/favicon-.*?\.svg"/, 'href="favicon.svg"');
+        .replace(/<script type="module" crossorigin src=".*?assets\/index-.*?\.js"><\/script>/, '<script type="module" crossorigin src="/src/main.jsx"></script>')
+        .replace(/<link rel="stylesheet" crossorigin href=".*?assets\/index-.*?\.css">\s*/, '')
+        .replace(/href=".*?assets\/favicon-.*?\.svg"/, 'href="/favicon.svg"');
     }
     return html;
   }
