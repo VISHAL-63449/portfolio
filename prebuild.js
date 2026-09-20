@@ -6,7 +6,8 @@ try {
     html = html
         .replace(/src="(?:\.\/|\/portfolio\/|\/)?assets\/index-.*?\.js"/g, 'src="/src/main.jsx"')
         .replace(/<link rel="stylesheet" crossorigin href="(?:\.\/|\/portfolio\/|\/)?assets\/index-.*?\.css">/g, '')
-        .replace(/href="(?:\.\/|\/portfolio\/|\/)?assets\/favicon-.*?\.svg"/g, 'href="favicon.svg"');
+        .replace(/type="image\/svg\+xml"/g, 'type="image/png"')
+        .replace(/href="(?:\.\/|\/portfolio\/|\/)?assets\/favicon-.*?\.(?:svg|png)"/g, 'href="favicon.png"');
 
     fs.writeFileSync('index.html', html, 'utf8');
     console.log('Successfully ran prebuild clean script.');

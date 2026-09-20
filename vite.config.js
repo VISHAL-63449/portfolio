@@ -10,7 +10,8 @@ const devHtmlPlugin = () => ({
       return html
         .replace(/<script type="module" crossorigin src=".*?assets\/index-.*?\.js"><\/script>/, '<script type="module" crossorigin src="/src/main.jsx"></script>')
         .replace(/<link rel="stylesheet" crossorigin href=".*?assets\/index-.*?\.css">\s*/, '')
-        .replace(/href=".*?assets\/favicon-.*?\.svg"/, 'href="/favicon.svg"');
+        .replace(/type="image\/svg\+xml"/g, 'type="image/png"')
+        .replace(/href=".*?assets\/favicon-.*?\.(?:svg|png)"/, 'href="/portfolio/favicon.png"');
     }
     return html;
   }
