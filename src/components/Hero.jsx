@@ -1,203 +1,414 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Reveal from './Reveal';
+import {
+    FaGithub,
+    FaLinkedinIn,
+    FaEnvelope,
+    FaReact,
+    FaNodeJs,
+    FaPython,
+    FaBriefcase,
+    FaCode,
+    FaFolder,
+    FaAward,
+    FaArrowRight,
+    FaDownload
+} from 'react-icons/fa';
+
+// Dynamic typewriter roles
+const ROLES = [
+    'Full Stack Developer',
+    'Frontend Specialist',
+    'Data Analyst',
+    'Python Developer'
+];
 
 export default function Hero() {
-    const titles = ['Frontend Developer', 'Full Stack Developer', 'Data Analyst', 'Python Developer'];
-    const [titleIndex, setTitleIndex] = useState(0);
-    const [charIndex, setCharIndex] = useState(0);
-    const [isDeleting, setIsDeleting] = useState(false);
-    const [typedText, setTypedText] = useState('');
+    const baseUrl = import.meta.env.BASE_URL || '/';
+    const profileImgSrc = `${baseUrl.replace(/\/$/, '')}/profile.jpeg`;
 
-    // Typing effect logic
-    useEffect(() => {
-        let timer;
-        const currentTitle = titles[titleIndex];
+    const [roleIndex, setRoleIndex] = React.useState(0);
+    const [currentText, setCurrentText] = React.useState('');
+    const [isDeleting, setIsDeleting] = React.useState(false);
 
-        if (isDeleting) {
-            // Deleting mode
-            if (charIndex > 0) {
-                timer = setTimeout(() => {
-                    setTypedText(currentTitle.substring(0, charIndex - 1));
-                    setCharIndex((prev) => prev - 1);
-                }, 50);
+    React.useEffect(() => {
+        const fullText = ROLES[roleIndex];
+        const typingSpeed = isDeleting ? 40 : 85;
+
+        const timer = setTimeout(() => {
+            if (!isDeleting) {
+                setCurrentText(fullText.substring(0, currentText.length + 1));
+                if (currentText === fullText) {
+                    setTimeout(() => setIsDeleting(true), 2200);
+                }
             } else {
-                // Done deleting
-                setIsDeleting(false);
-                setTitleIndex((prev) => (prev + 1) % titles.length);
+                setCurrentText(fullText.substring(0, currentText.length - 1));
+                if (currentText === '') {
+                    setIsDeleting(false);
+                    setRoleIndex((prev) => (prev + 1) % ROLES.length);
+                }
             }
-        } else {
-            // Typing mode
-            if (charIndex < currentTitle.length) {
-                timer = setTimeout(() => {
-                    setTypedText(currentTitle.substring(0, charIndex + 1));
-                    setCharIndex((prev) => prev + 1);
-                }, 100);
-            } else {
-                // Done typing, wait before starting deletion
-                timer = setTimeout(() => {
-                    setIsDeleting(true);
-                }, 1500);
-            }
-        }
+        }, typingSpeed);
 
         return () => clearTimeout(timer);
-    }, [charIndex, isDeleting, titleIndex, titles]);
+    }, [currentText, isDeleting, roleIndex]);
 
     const handleScrollTo = (id) => {
         const element = document.getElementById(id);
         if (element) {
             window.scrollTo({
-                top: element.offsetTop - 85,
+                top: element.offsetTop - 80,
                 behavior: 'smooth'
             });
         }
     };
 
+    const handleResumeDownload = (e) => {
+        e.preventDefault();
+        const resumeContent = `VISHAL
+Frontend Developer | Full Stack Developer | Data Analyst
+Phone: +91 6385475759  Email: vishal9932@mountzion.ac.in
+Karaikudi, Tamil Nadu, India
+GitHub: github.com/vishal9932
+
+CAREER OBJECTIVE
+Currently pursuing B.Tech in Information Technology and seeking opportunities to apply my frontend, full-stack development, and data analytics skills in real-world projects. Passionate about learning new technologies and building impactful software.
+
+EDUCATION
+Mount Zion College of Engineering and Technology
+Bachelor of Technology (Information Technology), 3rd Year Student.
+
+TECHNICAL SKILLS
+- Frontend: HTML5, CSS3, JavaScript, React.js
+- Backend: Node.js, Express.js
+- Databases: MySQL, MongoDB
+- Programming: Python
+- Data Analytics: Python, Excel, Data Visualization
+- Tools: Git, GitHub, VS Code
+
+PROJECTS
+1. VINIX Virtual Internship Platform: Comprehensive enterprise virtual internship ecosystem with real-world project tracking, progress analytics, and verified certification.
+2. VINIX Digital Products Portal: High-conversion corporate agency and customer enquiry platform transforming business ideas into powerful web applications.
+3. VR Music: Stream music online, responsive player, intuitive playlists.
+4. Interior Website: Sleek design layout for home interiors and room configurations.
+5. Jarvis AI: Voice assistant executing tasks and displaying futuristic UI elements.
+6. Sastikeyan Construction: Modern construction website with responsive layout and animated components.
+
+SERVICES
+- Frontend Development & React.js Development
+- Full Stack Development
+- Responsive Web Design
+- UI Development
+- Data Analysis & Website Optimization`;
+
+        const blob = new Blob([resumeContent], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Vishal_Resume.txt';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    };
+
     return (
         <section id="home" className="hero-section">
-            {/* Floating Cybernetic Tech-Shapes in Background */}
-            <div className="cyber-glitch-grids"></div>
-            <div className="floating-shape shape-glow-purple"></div>
-            <div className="floating-shape shape-glow-blue"></div>
+            {/* Ambient Background & Layered Elements */}
+            <div className="hero-bg-grid" aria-hidden="true"></div>
+            <div className="hero-ambient-purple" aria-hidden="true"></div>
+            <div className="hero-ambient-blue" aria-hidden="true"></div>
+            <div className="hero-curved-waves" aria-hidden="true"></div>
 
-            <div className="hero-container">
-
-                {/* Left Side Info */}
-                <div className="hero-info">
-                    <Reveal animationType="fade-up" delay={0.1}>
-                        <span className="hero-salutation">Hello, I'm</span>
-                    </Reveal>
-
-                    <Reveal animationType="fade-up" delay={0.2}>
-                        <h1 className="hero-name">
-                            VISHAL<span className="gradient-glow">.</span>
-                        </h1>
-                    </Reveal>
-
-                    {/* Typing Animation */}
-                    <Reveal animationType="fade-up" delay={0.3}>
-                        <div className="hero-title-wrapper">
-                            <span className="title-static">I am a </span>
-                            <span className="title-typed">{typedText}</span>
-                            <span className="cursor-blink">|</span>
-                        </div>
-                    </Reveal>
-
-                    <Reveal animationType="fade-up" delay={0.4}>
-                        <p className="hero-tagline">
-                            "I build modern, responsive, and intelligent web applications that combine clean design with powerful functionality."
-                        </p>
-                    </Reveal>
-
-                    {/* CTA Buttons */}
-                    <Reveal animationType="fade-up" delay={0.5}>
-                        <div className="hero-ctas">
-                            <button
-                                onClick={() => handleScrollTo('projects')}
-                                className="btn btn-primary"
-                            >
-                                View Projects
-                                <span className="btn-glow"></span>
-                            </button>
-
-                            <a
-                                href="Vishal_Resume.pdf"
-                                download="Vishal_Resume.pdf"
-                                className="btn btn-secondary"
-                                onClick={(e) => {
-                                    // Fallback if file doesn't exist yet, show resume in prompt/pop
-                                    e.preventDefault();
-                                    alert('Resume download started! (Generating a dynamic PDF format text outline of Vishal\'s profile)');
-                                    // We will create the resume download file dynamically or standard text blob!
-                                    const resumeContent = `VISHAL\nFrontend Developer | Full Stack Developer | Data Analyst\nPhone: +91 6385475759  Email: vishal9932@mountzion.ac.in\nKaraikudi, Tamil Nadu, India\nGitHub: github.com/vishal9932\n\nCAREER OBJECTIVE\nCurrently pursuing B.Tech in Information Technology and seeking opportunities to apply my frontend, full-stack development, and data analytics skills in real-world projects. Passionate about learning new technologies and building impactful software.\n\nEDUCATION\nMount Zion College of Engineering and Technology\nBachelor of Technology (Information Technology), 3rd Year Student.\n\nTECHNICAL SKILLS\n- Frontend: HTML5, CSS3, JavaScript, React.js\n- Backend: Node.js, Express.js\n- Databases: MySQL, MongoDB\n- Programming: Python\n- Data Analytics: Python, Excel, Data Visualization\n- Tools: Git, GitHub, VS Code\n\nPROJECTS\n1. VR Music: Stream music online, responsive player, intuitive playlists.\n2. Interior Website: Sleek design layout for home interiors and room configurations.\n3. Jarvis AI: Voice assistant executing tasks and displaying futuristic UI elements.\n\nSERVICES\n- Frontend Development & React.js Development\n- Full Stack Development\n- Responsive Web Design\n- UI Development\n- Data Analysis & Website Optimization`;
-
-                                    const blob = new Blob([resumeContent], { type: 'text/plain' });
-                                    const url = URL.createObjectURL(blob);
-                                    const a = document.createElement('a');
-                                    a.href = url;
-                                    a.download = 'Vishal_Resume.txt';
-                                    document.body.appendChild(a);
-                                    a.click();
-                                    document.body.removeChild(a);
-                                    URL.revokeObjectURL(url);
-                                }}
-                            >
-                                Download Resume
-                            </a>
-
-                            <button
-                                onClick={() => handleScrollTo('contact')}
-                                className="btn btn-accent"
-                            >
-                                Contact Me
-                            </button>
-                        </div>
-                    </Reveal>
-
-                    {/* Social Icons with animated SVGs */}
-                    <Reveal animationType="fade-up" delay={0.6}>
-                        <div className="hero-socials">
-                            <a href="https://github.com/vishal9932" target="_blank" rel="noreferrer" aria-label="GitHub">
-                                <svg className="social-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
-                                </svg>
-                            </a>
-                            <a href="https://www.linkedin.com/in/vishal" target="_blank" rel="noreferrer" aria-label="LinkedIn">
-                                <svg className="social-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-                                    <rect x="2" y="9" width="4" height="12" />
-                                    <circle cx="4" cy="4" r="2" />
-                                </svg>
-                            </a>
-                            <a href="mailto:vishal9932@mountzion.ac.in" aria-label="Email">
-                                <svg className="social-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                                    <polyline points="22,6 12,13 2,6" />
-                                </svg>
-                            </a>
-                        </div>
-                    </Reveal>
+            {/* Faint Background Code Snippet */}
+            <div className="hero-bg-code" aria-hidden="true">
+                <span className="code-bracket">&#123;</span>
+                <div className="code-snippet-body">
+                    <p><span className="code-kw">const</span> success =</p>
+                    <p className="code-indent">hardWork +</p>
+                    <p className="code-indent">consistency +</p>
+                    <p className="code-indent">betterTomorrow;</p>
                 </div>
-
-                {/* Right Side Upgraded Premium Profile Image */}
-                <div className="hero-visual">
-                    <Reveal animationType="zoom" delay={0.3}>
-                        <div className="premium-avatar-frame">
-                            {/* Decorative background glow */}
-                            <div className="avatar-glow-background"></div>
-
-                            {/* Outer moving gradient border */}
-                            <div className="avatar-border-glow"></div>
-
-                            <div className="avatar-image-wrapper">
-                                <img
-                                    src="profile.jpeg"
-                                    alt="Vishal"
-                                    className="hero-avatar-img-clean"
-                                />
-                            </div>
-
-                            {/* Elegant Floating Badges */}
-                            <div className="floating-tech-badge badge-react">
-                                <span className="tech-badge-dot purple"></span>
-                                <span className="tech-badge-text">Full Stack</span>
-                            </div>
-                            <div className="floating-tech-badge badge-data">
-                                <span className="tech-badge-dot blue"></span>
-                                <span className="tech-badge-text">Python & Data</span>
-                            </div>
-                        </div>
-                    </Reveal>
-                </div>
-
             </div>
 
-            {/* Mouse scroll indicator */}
-            <div className="scroll-indicator" onClick={() => handleScrollTo('about')}>
-                <div className="mouse">
-                    <div className="wheel"></div>
+            {/* Flying Letters & Developer Glyphs in Atmosphere */}
+            <div className="hero-flying-letters-layer" aria-hidden="true">
+                <span className="flying-glyph glyph-1">&lt;/&gt;</span>
+                <span className="flying-glyph glyph-2">&#123;&nbsp;&#125;</span>
+                <span className="flying-glyph glyph-3">const</span>
+                <span className="flying-glyph glyph-4">React</span>
+                <span className="flying-glyph glyph-5">Python</span>
+                <span className="flying-glyph glyph-6">=&gt;</span>
+                <span className="flying-glyph glyph-7">01</span>
+                <span className="flying-glyph glyph-8">Node</span>
+                <span className="flying-glyph glyph-9">AI</span>
+                <span className="flying-glyph glyph-10">JS</span>
+            </div>
+
+            {/* Glowing Accent Particles */}
+            <div className="hero-particles" aria-hidden="true">
+                <span className="particle p1"></span>
+                <span className="particle p2"></span>
+                <span className="particle p3"></span>
+                <span className="particle p4"></span>
+                <span className="particle p5"></span>
+            </div>
+
+            <div className="hero-container">
+                {/* Main 2-Column Desktop Grid */}
+                <div className="hero-columns-grid">
+                    
+                    {/* LEFT COLUMN */}
+                    <div className="hero-left-content">
+                        {/* Status Badge */}
+                        <Reveal animationType="fade-up" delay={0.1}>
+                            <div className="hero-status-pill">
+                                <span className="status-dot"></span>
+                                <span className="status-label">AVAILABLE FOR OPPORTUNITIES</span>
+                            </div>
+                        </Reveal>
+
+                        {/* Greeting */}
+                        <Reveal animationType="fade-up" delay={0.2}>
+                            <p className="hero-salutation">Hello, I'm</p>
+                        </Reveal>
+
+                        {/* Huge Name Heading with Flying Letters */}
+                        <Reveal animationType="fade-up" delay={0.3}>
+                            <h1 className="hero-name-heading" aria-label="VISHAL">
+                                {'VISHAL'.split('').map((letter, idx) => (
+                                    <span
+                                        key={idx}
+                                        className="flying-letter"
+                                        style={{ '--letter-index': idx }}
+                                    >
+                                        {letter}
+                                    </span>
+                                ))}
+                                <span className="hero-name-gradient-dot flying-letter-dot">.</span>
+                            </h1>
+                        </Reveal>
+
+                        {/* Gradient Role with Typing Effect & Blinking Cursor */}
+                        <Reveal animationType="fade-up" delay={0.4}>
+                            <div className="hero-role-wrapper">
+                                <span className="hero-role-gradient">{currentText || 'Full Stack Developer'}</span>
+                                <span className="hero-blinking-cursor">|</span>
+                            </div>
+                        </Reveal>
+
+                        {/* Description */}
+                        <Reveal animationType="fade-up" delay={0.5}>
+                            <p className="hero-description">
+                                I build modern, responsive and scalable web applications that combine clean design with powerful functionality.
+                            </p>
+                        </Reveal>
+
+                        {/* CTA Buttons */}
+                        <Reveal animationType="fade-up" delay={0.6}>
+                            <div className="hero-cta-buttons">
+                                <button
+                                    onClick={() => handleScrollTo('projects')}
+                                    className="hero-btn-primary"
+                                    id="hero-view-work-btn"
+                                >
+                                    <span>View My Work</span>
+                                    <FaArrowRight className="hero-btn-arrow" />
+                                    <span className="hero-btn-shine"></span>
+                                </button>
+
+                                <button
+                                    onClick={handleResumeDownload}
+                                    className="hero-btn-secondary"
+                                    id="hero-resume-btn"
+                                >
+                                    <FaDownload className="hero-btn-download-icon" />
+                                    <span>Download Resume</span>
+                                </button>
+                            </div>
+                        </Reveal>
+
+                        {/* Social Links */}
+                        <Reveal animationType="fade-up" delay={0.7}>
+                            <div className="hero-social-links">
+                                <a
+                                    href="https://github.com/vishal9932"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    aria-label="Vishal's GitHub"
+                                    className="hero-social-btn"
+                                >
+                                    <FaGithub />
+                                </a>
+                                <a
+                                    href="https://www.linkedin.com/in/vishal"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    aria-label="Vishal's LinkedIn"
+                                    className="hero-social-btn"
+                                >
+                                    <FaLinkedinIn />
+                                </a>
+                                <a
+                                    href="mailto:vishal9932@mountzion.ac.in"
+                                    aria-label="Email Vishal"
+                                    className="hero-social-btn"
+                                >
+                                    <FaEnvelope />
+                                </a>
+                            </div>
+                        </Reveal>
+                    </div>
+
+                    {/* RIGHT COLUMN: Layered Futuristic Profile Visual */}
+                    <div className="hero-right-visual">
+                        <Reveal animationType="zoom" delay={0.3}>
+                            <div className="hero-profile-composition">
+                                
+                                {/* Orbiting Curved Neon Rings */}
+                                <div className="orbit-track-ring" aria-hidden="true">
+                                    <span className="orbit-dot orbit-dot-1"></span>
+                                    <span className="orbit-dot orbit-dot-2"></span>
+                                    <span className="orbit-dot orbit-dot-3"></span>
+                                </div>
+
+                                {/* Floating Card 1: Upper-Left (Full Stack Developer) */}
+                                <div className="hero-floating-card card-fullstack">
+                                    <div className="floating-card-icon-box purple">
+                                        <FaCode />
+                                    </div>
+                                    <div className="floating-card-texts">
+                                        <span className="floating-card-heading">FULL STACK</span>
+                                        <span className="floating-card-subheading">Developer</span>
+                                    </div>
+                                </div>
+
+                                {/* Organic Futuristic Shield Container */}
+                                <div className="hero-profile-shield-wrapper">
+                                    {/* Ambient Glows around Shield */}
+                                    <div className="shield-ambient-glow" aria-hidden="true"></div>
+                                    <div className="shield-neon-border" aria-hidden="true"></div>
+
+                                    {/* Inner image container */}
+                                    <div className="shield-image-box">
+                                        <div className="shield-cosmic-backdrop" aria-hidden="true"></div>
+                                        <img
+                                            src={profileImgSrc}
+                                            alt="Vishal - Full Stack Developer"
+                                            className="hero-profile-portrait"
+                                            loading="eager"
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Floating Card 2: Upper-Right (Open to Work - sleek capsule) */}
+                                <div className="hero-floating-card card-opentowork">
+                                    <div className="card-open-icon-wrap">
+                                        <span className="card-open-green-dot"></span>
+                                        <FaBriefcase className="card-briefcase-icon" />
+                                    </div>
+                                    <span className="card-opentowork-title">OPEN TO WORK</span>
+                                </div>
+
+                                {/* Floating Card 3: Lower-Right (React, Node, Python) */}
+                                <div className="hero-floating-card card-techstack">
+                                    <div className="card-tech-icons">
+                                        <FaReact className="tech-icon-brand react-cyan" title="React" />
+                                        <FaNodeJs className="tech-icon-brand node-green" title="Node.js" />
+                                        <FaPython className="tech-icon-brand python-gold" title="Python" />
+                                    </div>
+                                    <div className="card-tech-footer">
+                                        <span className="card-tech-cyan-dot"></span>
+                                        <span className="card-tech-label">REACT &bull; NODE &bull; PYTHON</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </Reveal>
+                    </div>
+
                 </div>
-                <span className="scroll-text">SCROLL TO EXPLORE</span>
+
+                {/* BOTTOM STATISTICS PANEL (Matching Reference Image) */}
+                <Reveal animationType="fade-up" delay={0.8}>
+                    <div className="hero-stats-panel">
+                        {/* Stat 1: 10+ Projects */}
+                        <div
+                            className="hero-stat-card"
+                            onClick={() => handleScrollTo('projects')}
+                            role="button"
+                            tabIndex={0}
+                            title="Click to view projects"
+                        >
+                            <div className="stat-card-icon-box cyan">
+                                <FaFolder />
+                            </div>
+                            <div className="stat-card-details">
+                                <span className="stat-card-number">10+</span>
+                                <span className="stat-card-label">Projects</span>
+                            </div>
+                        </div>
+
+                        <div className="hero-stat-separator" aria-hidden="true"></div>
+
+                        {/* Stat 2: 5+ Technologies */}
+                        <div
+                            className="hero-stat-card"
+                            onClick={() => handleScrollTo('skills')}
+                            role="button"
+                            tabIndex={0}
+                            title="Click to view skills"
+                        >
+                            <div className="stat-card-icon-box purple">
+                                <FaCode />
+                            </div>
+                            <div className="stat-card-details">
+                                <span className="stat-card-number">5+</span>
+                                <span className="stat-card-label">Technologies</span>
+                            </div>
+                        </div>
+
+                        <div className="hero-stat-separator" aria-hidden="true"></div>
+
+                        {/* Stat 3: Certificates Earned */}
+                        <div
+                            className="hero-stat-card"
+                            onClick={() => handleScrollTo('certificates')}
+                            role="button"
+                            tabIndex={0}
+                            title="Click to view certificates"
+                        >
+                            <div className="stat-card-icon-box cyan">
+                                <FaAward />
+                            </div>
+                            <div className="stat-card-details">
+                                <span className="stat-card-heading">Certificates</span>
+                                <span className="stat-card-label">Earned</span>
+                            </div>
+                        </div>
+
+                        <div className="hero-stat-separator" aria-hidden="true"></div>
+
+                        {/* Stat 4: Open to Work - Let's Connect */}
+                        <div
+                            className="hero-stat-card"
+                            onClick={() => handleScrollTo('contact')}
+                            role="button"
+                            tabIndex={0}
+                            title="Click to contact Vishal"
+                        >
+                            <div className="stat-card-icon-box green">
+                                <span className="stat-card-live-dot"></span>
+                                <FaBriefcase />
+                            </div>
+                            <div className="stat-card-details">
+                                <span className="stat-card-heading">Open to Work</span>
+                                <span className="stat-card-label">Let's Connect</span>
+                            </div>
+                        </div>
+                    </div>
+                </Reveal>
+
             </div>
         </section>
     );

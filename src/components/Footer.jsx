@@ -1,4 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import {
+    FaGithub,
+    FaLinkedin,
+    FaEnvelope,
+    FaArrowUp,
+    FaPaperPlane,
+    FaRocket,
+    FaCode,
+    FaMapMarkerAlt,
+    FaHeart
+} from 'react-icons/fa';
 
 export default function Footer() {
     const [showScrollBtn, setShowScrollBtn] = useState(false);
@@ -12,7 +23,7 @@ export default function Footer() {
             }
         };
 
-        window.addEventListener('scroll', checkScrollHeight);
+        window.addEventListener('scroll', checkScrollHeight, { passive: true });
         return () => window.removeEventListener('scroll', checkScrollHeight);
     }, []);
 
@@ -27,8 +38,12 @@ export default function Footer() {
         e.preventDefault();
         const targetElement = document.getElementById(targetId);
         if (targetElement) {
+            const navOffset = 80;
+            const elementPosition = targetElement.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset - navOffset;
+
             window.scrollTo({
-                top: targetElement.offsetTop - 80,
+                top: offsetPosition,
                 behavior: 'smooth',
             });
         }
@@ -39,83 +54,187 @@ export default function Footer() {
         { name: 'About', target: 'about' },
         { name: 'Skills', target: 'skills' },
         { name: 'Projects', target: 'projects' },
-        { name: 'Education', target: 'education' },
         { name: 'Services', target: 'services' },
+        { name: 'Certificates', target: 'certificates' },
         { name: 'Contact', target: 'contact' },
+    ];
+
+    const techChips = [
+        'React 19',
+        'JavaScript ES6+',
+        'Node.js',
+        'Python',
+        'SQL & Analytics',
+        'Modern CSS3',
+        'Git & GitHub',
+        'Vite'
     ];
 
     return (
         <footer className="footer-panel">
             <div className="container">
 
-                <div className="footer-top-grid">
-                    {/* Brand Info */}
-                    <div className="footer-brand">
-                        <h3 className="footer-logo">
-                            VISHAL<span className="dot">.</span>
+                {/* Pre-Footer Spotlight CTA Banner */}
+                <div className="footer-cta-card">
+                    <div className="footer-cta-content">
+                        <span className="footer-cta-eyebrow">
+                            <FaRocket className="cta-rocket-icon" /> Ready to Collaborate?
+                        </span>
+                        <h3 className="footer-cta-title">
+                            Let's Build Something <span className="gradient-text">Extraordinary</span> Together
                         </h3>
-                        <p className="footer-brand-desc">
-                            Frontend Developer | Full Stack Developer | Data Analyst
-                        </p>
-                        <p className="footer-brand-location">
-                            Based in Tamil Nadu, India. Creating premium digital experiences.
+                        <p className="footer-cta-desc">
+                            Looking for a high-performance frontend engineer, full stack developer, or data analyst? Let's discuss your next milestone.
                         </p>
                     </div>
+                    <div className="footer-cta-actions">
+                        <a
+                            href="#contact"
+                            onClick={(e) => handleLinkClick(e, 'contact')}
+                            className="footer-btn-primary"
+                        >
+                            <span>Get In Touch</span>
+                            <FaPaperPlane className="footer-btn-icon" />
+                        </a>
+                        <a
+                            href="#projects"
+                            onClick={(e) => handleLinkClick(e, 'projects')}
+                            className="footer-btn-secondary"
+                        >
+                            <span>View Projects</span>
+                            <FaCode className="footer-btn-icon" />
+                        </a>
+                    </div>
+                </div>
 
-                    {/* Site Navigation Links */}
-                    <div className="footer-links-wrapper">
-                        <h4 className="footer-header">Quick Navigation</h4>
-                        <ul className="footer-links-grid">
+                {/* Main 4-Column Footer Grid */}
+                <div className="footer-main-grid">
+
+                    {/* Column 1: Brand & Status */}
+                    <div className="footer-col footer-col-brand">
+                        <a href="#home" onClick={(e) => handleLinkClick(e, 'home')} className="footer-logo-link">
+                            <h3 className="footer-logo">
+                                VISHAL<span className="logo-dot">.</span>
+                            </h3>
+                        </a>
+                        <div className="footer-role-badge">
+                            Frontend Developer • Full Stack Developer • Data Analyst
+                        </div>
+                        <p className="footer-brand-statement">
+                            Building fast, responsive, and aesthetically pleasing web interfaces with modern engineering practices.
+                        </p>
+                        <div className="footer-status-pill">
+                            <span className="pulse-green-dot"></span>
+                            <span>Available for Full-Time & Freelance</span>
+                        </div>
+                        <div className="footer-location-tag">
+                            <FaMapMarkerAlt className="loc-icon" />
+                            <span>Tamil Nadu, India • Working Worldwide</span>
+                        </div>
+                    </div>
+
+                    {/* Column 2: Quick Navigation */}
+                    <div className="footer-col footer-col-nav">
+                        <h4 className="footer-col-heading">Quick Navigation</h4>
+                        <ul className="footer-nav-list">
                             {quickLinks.map((link) => (
                                 <li key={link.name}>
                                     <a
                                         href={`#${link.target}`}
                                         onClick={(e) => handleLinkClick(e, link.target)}
-                                        className="footer-nav-link"
+                                        className="footer-nav-anchor"
                                     >
-                                        {link.name}
+                                        <span className="nav-bullet">›</span>
+                                        <span>{link.name}</span>
                                     </a>
                                 </li>
                             ))}
                         </ul>
                     </div>
 
-                    {/* Social connections */}
-                    <div className="footer-social-block">
-                        <h4 className="footer-header">Channels</h4>
-                        <div className="footer-social-row">
-                            <a href="https://github.com/vishal9932" target="_blank" rel="noreferrer" aria-label="GitHub">
-                                <svg className="footer-social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
-                                </svg>
+                    {/* Column 3: Tech Specializations */}
+                    <div className="footer-col footer-col-tech">
+                        <h4 className="footer-col-heading">Specialization</h4>
+                        <p className="footer-tech-desc">Core tools & libraries in my daily workflow:</p>
+                        <div className="footer-tech-chips-wrap">
+                            {techChips.map((tech) => (
+                                <span key={tech} className="footer-tech-chip">
+                                    {tech}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Column 4: Channels & Socials */}
+                    <div className="footer-col footer-col-social">
+                        <h4 className="footer-col-heading">Channels</h4>
+                        <p className="footer-social-desc">Connect with me across the web:</p>
+                        <div className="footer-social-cards">
+                            <a
+                                href="https://github.com/vishal9932"
+                                target="_blank"
+                                rel="noreferrer"
+                                className="footer-social-card github"
+                                aria-label="GitHub Profile"
+                            >
+                                <div className="social-card-icon">
+                                    <FaGithub />
+                                </div>
+                                <div className="social-card-info">
+                                    <span className="social-card-name">GitHub</span>
+                                    <span className="social-card-handle">@vishal9932</span>
+                                </div>
                             </a>
-                            <a href="https://www.linkedin.com/in/vishal" target="_blank" rel="noreferrer" aria-label="LinkedIn">
-                                <svg className="footer-social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-                                    <rect x="2" y="9" width="4" height="12" />
-                                    <circle cx="4" cy="4" r="2" />
-                                </svg>
+
+                            <a
+                                href="https://www.linkedin.com/in/vishal"
+                                target="_blank"
+                                rel="noreferrer"
+                                className="footer-social-card linkedin"
+                                aria-label="LinkedIn Profile"
+                            >
+                                <div className="social-card-icon">
+                                    <FaLinkedin />
+                                </div>
+                                <div className="social-card-info">
+                                    <span className="social-card-name">LinkedIn</span>
+                                    <span className="social-card-handle">Vishal</span>
+                                </div>
                             </a>
-                            <a href="mailto:vishal9932@mountzion.ac.in" aria-label="Email">
-                                <svg className="footer-social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                                    <polyline points="22,6 12,13 2,6" />
-                                </svg>
+
+                            <a
+                                href="mailto:vishal9932@mountzion.ac.in"
+                                className="footer-social-card email"
+                                aria-label="Send Direct Email"
+                            >
+                                <div className="social-card-icon">
+                                    <FaEnvelope />
+                                </div>
+                                <div className="social-card-info">
+                                    <span className="social-card-name">Email</span>
+                                    <span className="social-card-handle">vishal9932@mountzion.ac.in</span>
+                                </div>
                             </a>
                         </div>
                     </div>
+
                 </div>
 
-                <div className="footer-divider"></div>
+                {/* Divider Line */}
+                <div className="footer-gradient-divider"></div>
 
-                {/* Copyright */}
-                <div className="footer-bottom-row">
-                    <p className="footer-copy">
-                        &copy; 2026 Vishal. All Rights Reserved. Coded with Passion in India.
-                    </p>
-                    <p className="footer-frameworks-tag">
-                        Powered by React.js & Pure CSS
-                    </p>
+                {/* Bottom Bar: Copyright & Tech */}
+                <div className="footer-bottom-bar">
+                    <div className="footer-bottom-left">
+                        <p className="footer-copyright-text">
+                            &copy; 2026 <strong>Vishal</strong>. All rights reserved.
+                        </p>
+                    </div>
+                    <div className="footer-bottom-right">
+                        <p className="footer-tech-credit">
+                            Engineered with <FaHeart className="heart-icon" /> using React 19 & Pure CSS
+                        </p>
+                    </div>
                 </div>
 
             </div>
@@ -125,10 +244,9 @@ export default function Footer() {
                 onClick={scrollToTop}
                 className={`back-to-top-btn ${showScrollBtn ? 'visible' : ''}`}
                 aria-label="Back to Top"
+                title="Scroll back to top"
             >
-                <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                    <path d="M5 15l7-7 7 7" />
-                </svg>
+                <FaArrowUp className="top-arrow-icon" />
             </button>
         </footer>
     );

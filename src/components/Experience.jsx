@@ -4,16 +4,16 @@ import Reveal from './Reveal';
 export default function Experience() {
     const objectiveMilestones = [
         {
-            period: 'Presenr - Future',
-            role: 'Career Objective & Goal',
-            organization: 'Fullstack / Frontend Developer Role',
-            desc: 'Seeking opportunities to apply frontend, full-stack development, and data analytics skills in real-world professional projects. Aiming to build modern, high-performance, and scalable software in collaboration with dynamic developer teams.',
-            skills: ['React.js', 'Node.js', 'Full-stack Architecture', 'Collaboration']
+            period: '2025 - Present',
+            role: 'Company Project Developer',
+            organization: 'VINIX Web Platforms & Client Solutions',
+            desc: 'Designed and engineered production web applications for VINIX, including the Virtual Internship Platform (progress tracking milestones, certification verification, mentor dashboard) and the Digital Products & Customer Enquiry portal.',
+            skills: ['React.js', 'Node.js', 'Express.js', 'MongoDB', 'REST APIs', 'UI/UX Engineering']
         },
         {
-            period: '2025 - 2026',
-            role: 'Project Phase',
-            organization: 'Advanced Application Building',
+            period: '2024 - 2025',
+            role: 'Application Development Phase',
+            organization: 'Full Stack & AI Development',
             desc: 'Developed Jarvis AI voice companion, integrated Python scripting with responsive web wrappers, created custom stream mechanisms for VR Music, and coded architectural layout websites.',
             skills: ['Python Integration', 'Voice Automation', 'Responsive Assets', 'Client-side Engineering']
         },

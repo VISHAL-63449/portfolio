@@ -1,5 +1,21 @@
 import React, { useState } from 'react';
 import Reveal from './Reveal';
+import {
+    FaUser,
+    FaEnvelope,
+    FaTag,
+    FaCommentDots,
+    FaPaperPlane,
+    FaPhoneAlt,
+    FaMapMarkerAlt,
+    FaClock,
+    FaGithub,
+    FaLinkedin,
+    FaCheckCircle,
+    FaCopy,
+    FaCheck,
+    FaBolt
+} from 'react-icons/fa';
 
 export default function Contact() {
     const [formData, setFormData] = useState({
@@ -12,15 +28,22 @@ export default function Contact() {
     const [errors, setErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [copiedField, setCopiedField] = useState(null);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
 
-        // Clear error for field if inputting new text
+        // Clear field error on change
         if (errors[name]) {
             setErrors({ ...errors, [name]: '' });
         }
+    };
+
+    const copyToClipboard = (text, field) => {
+        navigator.clipboard.writeText(text);
+        setCopiedField(field);
+        setTimeout(() => setCopiedField(null), 2000);
     };
 
     const validateForm = () => {
@@ -57,17 +80,17 @@ export default function Contact() {
         if (validateForm()) {
             setIsSubmitting(true);
 
-            // Simulate API submit delay (1.5s)
+            // Simulate sending delay
             setTimeout(() => {
                 setIsSubmitting(false);
                 setIsSubmitted(true);
                 setFormData({ name: '', email: '', subject: '', message: '' });
 
-                // Reset success banner after 5 seconds
+                // Reset success banner after 6 seconds
                 setTimeout(() => {
                     setIsSubmitted(false);
-                }, 5000);
-            }, 1500);
+                }, 6000);
+            }, 1200);
         }
     };
 
@@ -75,188 +98,283 @@ export default function Contact() {
         <section id="contact" className="contact-section">
             <div className="container">
 
-                {/* Section Title */}
+                {/* Section Header */}
                 <Reveal animationType="fade-up">
                     <div className="section-header">
                         <span className="section-subtitle">Get In Touch</span>
-                        <h2 className="section-title">Contact</h2>
+                        <h2 className="section-title">Let's Connect</h2>
                         <div className="title-bar"></div>
+                        <p className="section-description">
+                            Have an opportunity, a project proposal, or just want to discuss modern web development? Reach out anytime!
+                        </p>
                     </div>
                 </Reveal>
 
                 <div className="contact-grid">
 
-                    {/* Left Side: Contact info & Socials */}
+                    {/* Left Panel: Contact Information & Interactive Cards */}
                     <Reveal animationType="fade-up" delay={0.2}>
-                        <div className="contact-info-panel glass-panel">
+                        <div className="contact-info-panel">
+                            {/* Live Availability Card */}
+                            <div className="contact-status-card">
+                                <span className="status-pulse-dot"></span>
+                                <div>
+                                    <div className="status-title">Open for Opportunities</div>
+                                    <div className="status-desc">Available for Full-Time Roles, Internships & Freelance</div>
+                                </div>
+                            </div>
+
                             <h3 className="info-panel-title">Contact Information</h3>
                             <p className="info-panel-desc">
-                                Feel free to reach out for internship opportunities, project collaborations, or tech talks. I am available for immediate hire.
+                                I typically respond within 24 hours. Feel free to connect directly via email, phone, or LinkedIn.
                             </p>
 
-                            <div className="info-items">
-                                {/* Email Item */}
-                                <a href="mailto:vishal9932@mountzion.ac.in" className="info-item-link">
-                                    <div className="info-item glass-accent">
-                                        <div className="info-icon-wrapper">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                                                <polyline points="22,6 12,13 2,6" />
-                                            </svg>
-                                        </div>
-                                        <div className="info-text">
-                                            <span className="info-label">Email Me</span>
-                                            <span className="info-value">vishal9932@mountzion.ac.in</span>
-                                        </div>
+                            <div className="info-items-container">
+                                {/* Email Card */}
+                                <div className="info-card-item">
+                                    <div className="info-card-icon-wrap email">
+                                        <FaEnvelope />
                                     </div>
-                                </a>
+                                    <div className="info-card-content">
+                                        <span className="info-card-label">Email Address</span>
+                                        <a href="mailto:vishal9932@mountzion.ac.in" className="info-card-value">
+                                            vishal9932@mountzion.ac.in
+                                        </a>
+                                    </div>
+                                    <button
+                                        type="button"
+                                        onClick={() => copyToClipboard('vishal9932@mountzion.ac.in', 'email')}
+                                        className="info-copy-btn"
+                                        title="Copy Email"
+                                        aria-label="Copy Email"
+                                    >
+                                        {copiedField === 'email' ? <FaCheck className="copied-icon" /> : <FaCopy />}
+                                    </button>
+                                </div>
 
-                                {/* Phone Item */}
-                                <a href="tel:+916385475759" className="info-item-link">
-                                    <div className="info-item glass-accent">
-                                        <div className="info-icon-wrapper">
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-                                            </svg>
-                                        </div>
-                                        <div className="info-text">
-                                            <span className="info-label">Call Me</span>
-                                            <span className="info-value">+91 6385475759</span>
-                                        </div>
+                                {/* Phone Card */}
+                                <div className="info-card-item">
+                                    <div className="info-card-icon-wrap phone">
+                                        <FaPhoneAlt />
                                     </div>
-                                </a>
+                                    <div className="info-card-content">
+                                        <span className="info-card-label">Direct Phone</span>
+                                        <a href="tel:+916385475759" className="info-card-value">
+                                            +91 6385475759
+                                        </a>
+                                    </div>
+                                    <button
+                                        type="button"
+                                        onClick={() => copyToClipboard('+916385475759', 'phone')}
+                                        className="info-copy-btn"
+                                        title="Copy Phone Number"
+                                        aria-label="Copy Phone Number"
+                                    >
+                                        {copiedField === 'phone' ? <FaCheck className="copied-icon" /> : <FaCopy />}
+                                    </button>
+                                </div>
 
-                                {/* Location Item */}
-                                <div className="info-item glass-accent">
-                                    <div className="info-icon-wrapper">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                                            <circle cx="12" cy="10" r="3" />
-                                        </svg>
+                                {/* Location Card */}
+                                <div className="info-card-item">
+                                    <div className="info-card-icon-wrap location">
+                                        <FaMapMarkerAlt />
                                     </div>
-                                    <div className="info-text">
-                                        <span className="info-label">Base Location</span>
-                                        <span className="info-value">Karaikudi, Tamil Nadu, India</span>
+                                    <div className="info-card-content">
+                                        <span className="info-card-label">Location</span>
+                                        <span className="info-card-value">Karaikudi, Tamil Nadu, India</span>
+                                    </div>
+                                    <span className="info-tag">IST (UTC+5:30)</span>
+                                </div>
+
+                                {/* Working Hours Card */}
+                                <div className="info-card-item">
+                                    <div className="info-card-icon-wrap time">
+                                        <FaClock />
+                                    </div>
+                                    <div className="info-card-content">
+                                        <span className="info-card-label">Working Hours</span>
+                                        <span className="info-card-value">Mon – Sat • 9:00 AM – 8:00 PM IST</span>
                                     </div>
                                 </div>
                             </div>
 
-                            {/* Social links */}
+                            {/* Social Profiles Row */}
                             <div className="info-social-block">
-                                <span className="social-block-title">Follow My Codes</span>
-                                <div className="social-links-row">
-                                    <a href="https://github.com/vishal9932" target="_blank" rel="noreferrer" className="social-btn" aria-label="GitHub">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
-                                        </svg>
+                                <span className="social-block-title">Follow & Connect</span>
+                                <div className="contact-social-row">
+                                    <a
+                                        href="https://github.com/vishal9932"
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="contact-social-pill"
+                                        aria-label="GitHub"
+                                    >
+                                        <FaGithub />
+                                        <span>GitHub</span>
                                     </a>
-                                    <a href="https://www.linkedin.com/in/vishal" target="_blank" rel="noreferrer" className="social-btn" aria-label="LinkedIn">
-                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-                                            <rect x="2" y="9" width="4" height="12" />
-                                            <circle cx="4" cy="4" r="2" />
-                                        </svg>
+                                    <a
+                                        href="https://www.linkedin.com/in/vishal"
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="contact-social-pill"
+                                        aria-label="LinkedIn"
+                                    >
+                                        <FaLinkedin />
+                                        <span>LinkedIn</span>
+                                    </a>
+                                    <a
+                                        href="mailto:vishal9932@mountzion.ac.in"
+                                        className="contact-social-pill"
+                                        aria-label="Email"
+                                    >
+                                        <FaEnvelope />
+                                        <span>Email</span>
                                     </a>
                                 </div>
                             </div>
                         </div>
                     </Reveal>
 
-                    {/* Right Side: Form validation */}
+                    {/* Right Panel: Sleek Cyber Form Card */}
                     <Reveal animationType="fade-up" delay={0.3}>
-                        <div className="contact-form-panel glass-panel">
-                            <h3 className="form-panel-title">Send a Direct Message</h3>
+                        <div className="contact-form-panel">
+                            {/* Form Header */}
+                            <div className="form-panel-header">
+                                <div className="form-header-badge">
+                                    <FaBolt className="badge-sparkle-icon" />
+                                    <span>Direct Message</span>
+                                </div>
+                                <h3 className="form-panel-title">Send a Direct Message</h3>
+                                <p className="form-panel-subtitle">
+                                    Got a project or opportunity? Send details and I will get back to you promptly.
+                                </p>
+                            </div>
 
+                            {/* Success Toast */}
                             {isSubmitted && (
                                 <div className="contact-success-banner">
-                                    <svg className="success-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
-                                        <polyline points="20 6 9 17 4 12" />
-                                    </svg>
-                                    <span>Your message has been successfully broadcast! I will respond shortly.</span>
+                                    <FaCheckCircle className="success-icon" />
+                                    <div className="success-text">
+                                        <strong>Message Sent Successfully!</strong>
+                                        <span>Thank you for reaching out. I will respond to your message shortly.</span>
+                                    </div>
                                 </div>
                             )}
 
-                            <form onSubmit={handleFormSubmit} className="contact-form">
+                            <form onSubmit={handleFormSubmit} className="contact-form-styled" noValidate>
 
-                                {/* Name */}
-                                <div className="form-group">
-                                    <label htmlFor="name">Full Name</label>
-                                    <input
-                                        type="text"
-                                        id="name"
-                                        name="name"
-                                        value={formData.name}
-                                        onChange={handleInputChange}
-                                        className={`form-input ${errors.name ? 'input-error' : ''}`}
-                                        placeholder="John Doe"
-                                        disabled={isSubmitting}
-                                    />
+                                {/* Full Name */}
+                                <div className="form-field-group">
+                                    <label htmlFor="name" className="field-label">
+                                        Full Name <span className="req-star">*</span>
+                                    </label>
+                                    <div className={`input-shell ${errors.name ? 'has-error' : ''}`}>
+                                        <span className="input-icon-slot">
+                                            <FaUser />
+                                        </span>
+                                        <input
+                                            type="text"
+                                            id="name"
+                                            name="name"
+                                            value={formData.name}
+                                            onChange={handleInputChange}
+                                            className="field-input"
+                                            placeholder="e.g. John Doe"
+                                            disabled={isSubmitting}
+                                            autoComplete="name"
+                                        />
+                                    </div>
                                     {errors.name && <span className="field-error-msg">{errors.name}</span>}
                                 </div>
 
-                                {/* Email */}
-                                <div className="form-group">
-                                    <label htmlFor="email">Email Address</label>
-                                    <input
-                                        type="email"
-                                        id="email"
-                                        name="email"
-                                        value={formData.email}
-                                        onChange={handleInputChange}
-                                        className={`form-input ${errors.email ? 'input-error' : ''}`}
-                                        placeholder="john@example.com"
-                                        disabled={isSubmitting}
-                                    />
+                                {/* Email Address */}
+                                <div className="form-field-group">
+                                    <label htmlFor="email" className="field-label">
+                                        Email Address <span className="req-star">*</span>
+                                    </label>
+                                    <div className={`input-shell ${errors.email ? 'has-error' : ''}`}>
+                                        <span className="input-icon-slot">
+                                            <FaEnvelope />
+                                        </span>
+                                        <input
+                                            type="email"
+                                            id="email"
+                                            name="email"
+                                            value={formData.email}
+                                            onChange={handleInputChange}
+                                            className="field-input"
+                                            placeholder="e.g. john@company.com"
+                                            disabled={isSubmitting}
+                                            autoComplete="email"
+                                        />
+                                    </div>
                                     {errors.email && <span className="field-error-msg">{errors.email}</span>}
                                 </div>
 
                                 {/* Subject */}
-                                <div className="form-group">
-                                    <label htmlFor="subject">Subject</label>
-                                    <input
-                                        type="text"
-                                        id="subject"
-                                        name="subject"
-                                        value={formData.subject}
-                                        onChange={handleInputChange}
-                                        className={`form-input ${errors.subject ? 'input-error' : ''}`}
-                                        placeholder="Internship opportunity"
-                                        disabled={isSubmitting}
-                                    />
+                                <div className="form-field-group">
+                                    <label htmlFor="subject" className="field-label">
+                                        Subject <span className="req-star">*</span>
+                                    </label>
+                                    <div className={`input-shell ${errors.subject ? 'has-error' : ''}`}>
+                                        <span className="input-icon-slot">
+                                            <FaTag />
+                                        </span>
+                                        <input
+                                            type="text"
+                                            id="subject"
+                                            name="subject"
+                                            value={formData.subject}
+                                            onChange={handleInputChange}
+                                            className="field-input"
+                                            placeholder="e.g. Internship or Project Discussion"
+                                            disabled={isSubmitting}
+                                        />
+                                    </div>
                                     {errors.subject && <span className="field-error-msg">{errors.subject}</span>}
                                 </div>
 
                                 {/* Message */}
-                                <div className="form-group">
-                                    <label htmlFor="message">Message</label>
-                                    <textarea
-                                        id="message"
-                                        name="message"
-                                        rows="4"
-                                        value={formData.message}
-                                        onChange={handleInputChange}
-                                        className={`form-input textarea-input ${errors.message ? 'input-error' : ''}`}
-                                        placeholder="Describe your project, terms, and requirements..."
-                                        disabled={isSubmitting}
-                                    />
+                                <div className="form-field-group">
+                                    <label htmlFor="message" className="field-label">
+                                        Message <span className="req-star">*</span>
+                                    </label>
+                                    <div className={`input-shell textarea-shell ${errors.message ? 'has-error' : ''}`}>
+                                        <span className="input-icon-slot textarea-icon-slot">
+                                            <FaCommentDots />
+                                        </span>
+                                        <textarea
+                                            id="message"
+                                            name="message"
+                                            rows="5"
+                                            value={formData.message}
+                                            onChange={handleInputChange}
+                                            className="field-input field-textarea"
+                                            placeholder="Please describe your project, requirements, or terms..."
+                                            disabled={isSubmitting}
+                                        />
+                                    </div>
                                     {errors.message && <span className="field-error-msg">{errors.message}</span>}
                                 </div>
 
-                                {/* Submit button */}
+                                {/* High-End Submit Action Button */}
                                 <button
                                     type="submit"
                                     disabled={isSubmitting}
-                                    className="btn btn-primary btn-submit"
+                                    className={`contact-submit-btn ${isSubmitting ? 'submitting' : ''}`}
                                 >
+                                    <span className="btn-shine-sweep"></span>
                                     {isSubmitting ? (
-                                        <div className="submit-spinner-row">
-                                            <div className="submitting-spinner"></div>
-                                            <span>Broadcasting...</span>
+                                        <div className="submit-loader-wrap">
+                                            <div className="submit-spinner-ring"></div>
+                                            <span>Sending Message...</span>
                                         </div>
                                     ) : (
-                                        <span>Broadcasting Signal</span>
+                                        <div className="submit-content-wrap">
+                                            <span>Send Message</span>
+                                            <FaPaperPlane className="submit-arrow-icon" />
+                                        </div>
                                     )}
-                                    <span className="btn-glow"></span>
                                 </button>
 
                             </form>
