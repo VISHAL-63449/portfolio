@@ -162,6 +162,8 @@ button {
     opacity: 0;
     transition-property: opacity, transform;
     will-change: opacity, transform;
+    min-width: 0;
+    max-width: 100%;
 }
 
 .reveal-wrapper.fade-up {

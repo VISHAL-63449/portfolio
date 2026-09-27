@@ -177,6 +177,7 @@
     pointer-events: none;
     z-index: 1050;
     visibility: hidden;
+    overflow: hidden;
     transition: visibility 0.3s ease;
 }
 
